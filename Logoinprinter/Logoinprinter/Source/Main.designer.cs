@@ -30,11 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.e_nav_title = new System.Windows.Forms.Label();
-            this.e_nav_logo = new System.Windows.Forms.PictureBox();
             this.e_nav = new System.Windows.Forms.PictureBox();
             this.e_hider = new System.Windows.Forms.Panel();
+            this.e_Modi = new System.Windows.Forms.ComboBox();
             this.e_Position = new System.Windows.Forms.ComboBox();
             this.e_Run = new System.Windows.Forms.Button();
+            this.e_Opacity = new System.Windows.Forms.NumericUpDown();
             this.e_SideOffset = new System.Windows.Forms.NumericUpDown();
             this.e_DestFolder = new System.Windows.Forms.TextBox();
             this.e_SetDestFolder = new System.Windows.Forms.Button();
@@ -43,9 +44,9 @@
             this.e_SourceFolder = new System.Windows.Forms.TextBox();
             this.e_SelSourceFolder = new System.Windows.Forms.Button();
             this.e_nav_close = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.e_nav_logo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_nav)).BeginInit();
             this.e_hider.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.e_Opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_SideOffset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_nav_close)).BeginInit();
             this.SuspendLayout();
@@ -56,22 +57,11 @@
             this.e_nav_title.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.e_nav_title.Font = new System.Drawing.Font("Logico Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.e_nav_title.ForeColor = System.Drawing.Color.White;
-            this.e_nav_title.Location = new System.Drawing.Point(47, 6);
+            this.e_nav_title.Location = new System.Drawing.Point(12, 6);
             this.e_nav_title.Name = "e_nav_title";
             this.e_nav_title.Size = new System.Drawing.Size(222, 19);
             this.e_nav_title.TabIndex = 18;
             this.e_nav_title.Text = "THENAMEOFTHESOFTWARE";
-            // 
-            // e_nav_logo
-            // 
-            this.e_nav_logo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.e_nav_logo.Image = global::Logoinprinter.Properties.Resources.logo;
-            this.e_nav_logo.Location = new System.Drawing.Point(10, 1);
-            this.e_nav_logo.Name = "e_nav_logo";
-            this.e_nav_logo.Size = new System.Drawing.Size(30, 30);
-            this.e_nav_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.e_nav_logo.TabIndex = 17;
-            this.e_nav_logo.TabStop = false;
             // 
             // e_nav
             // 
@@ -89,8 +79,11 @@
             // 
             // e_hider
             // 
+            this.e_hider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.e_hider.Controls.Add(this.e_Modi);
             this.e_hider.Controls.Add(this.e_Position);
             this.e_hider.Controls.Add(this.e_Run);
+            this.e_hider.Controls.Add(this.e_Opacity);
             this.e_hider.Controls.Add(this.e_SideOffset);
             this.e_hider.Controls.Add(this.e_DestFolder);
             this.e_hider.Controls.Add(this.e_SetDestFolder);
@@ -100,8 +93,17 @@
             this.e_hider.Controls.Add(this.e_SelSourceFolder);
             this.e_hider.Location = new System.Drawing.Point(1, 31);
             this.e_hider.Name = "e_hider";
-            this.e_hider.Size = new System.Drawing.Size(260, 132);
+            this.e_hider.Size = new System.Drawing.Size(260, 160);
             this.e_hider.TabIndex = 20;
+            // 
+            // e_Modi
+            // 
+            this.e_Modi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.e_Modi.FormattingEnabled = true;
+            this.e_Modi.Location = new System.Drawing.Point(73, 123);
+            this.e_Modi.Name = "e_Modi";
+            this.e_Modi.Size = new System.Drawing.Size(93, 21);
+            this.e_Modi.TabIndex = 9;
             // 
             // e_Position
             // 
@@ -121,7 +123,7 @@
             // 
             this.e_Run.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.e_Run.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.e_Run.Location = new System.Drawing.Point(172, 97);
+            this.e_Run.Location = new System.Drawing.Point(172, 123);
             this.e_Run.Name = "e_Run";
             this.e_Run.Size = new System.Drawing.Size(70, 20);
             this.e_Run.TabIndex = 8;
@@ -129,12 +131,34 @@
             this.e_Run.UseVisualStyleBackColor = true;
             this.e_Run.Click += new System.EventHandler(this.Run);
             // 
+            // e_Opacity
+            // 
+            this.e_Opacity.Location = new System.Drawing.Point(20, 123);
+            this.e_Opacity.Name = "e_Opacity";
+            this.e_Opacity.Size = new System.Drawing.Size(47, 20);
+            this.e_Opacity.TabIndex = 6;
+            this.e_Opacity.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            // 
             // e_SideOffset
             // 
             this.e_SideOffset.Location = new System.Drawing.Point(20, 97);
+            this.e_SideOffset.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.e_SideOffset.Name = "e_SideOffset";
             this.e_SideOffset.Size = new System.Drawing.Size(47, 20);
             this.e_SideOffset.TabIndex = 6;
+            this.e_SideOffset.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             // 
             // e_DestFolder
             // 
@@ -209,18 +233,17 @@
             this.e_nav_close.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.e_nav_close.TabIndex = 22;
             this.e_nav_close.TabStop = false;
-            this.e_nav_close.Click += new System.EventHandler(this.event_close);
+            this.e_nav_close.Click += new System.EventHandler(this.Close);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(360, 509);
             this.Controls.Add(this.e_nav_close);
             this.Controls.Add(this.e_hider);
             this.Controls.Add(this.e_nav_title);
-            this.Controls.Add(this.e_nav_logo);
             this.Controls.Add(this.e_nav);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -228,12 +251,10 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WINDOWNAME";
-            this.Activated += new System.EventHandler(this.event_focus);
-            this.Deactivate += new System.EventHandler(this.event_unfocus);
-            ((System.ComponentModel.ISupportInitialize)(this.e_nav_logo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_nav)).EndInit();
             this.e_hider.ResumeLayout(false);
             this.e_hider.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.e_Opacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_SideOffset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_nav_close)).EndInit();
             this.ResumeLayout(false);
@@ -243,7 +264,6 @@
 
         #endregion
         private System.Windows.Forms.Label e_nav_title;
-        private System.Windows.Forms.PictureBox e_nav_logo;
         private System.Windows.Forms.PictureBox e_nav;
         private System.Windows.Forms.Panel e_hider;
         private System.Windows.Forms.PictureBox e_nav_close;
@@ -256,5 +276,7 @@
         private System.Windows.Forms.TextBox e_SourceFolder;
         private System.Windows.Forms.Button e_SelSourceFolder;
         private System.Windows.Forms.ComboBox e_Position;
+        private System.Windows.Forms.NumericUpDown e_Opacity;
+        private System.Windows.Forms.ComboBox e_Modi;
     }
 }

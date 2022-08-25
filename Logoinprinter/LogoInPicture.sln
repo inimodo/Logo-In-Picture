@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logoinprinter", "Logoinprinter\Logoinprinter.csproj", "{FB45654B-54A3-413B-9B10-08504CA5EB0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogoInPicture", "Logoinprinter\LogoInPicture.csproj", "{FB45654B-54A3-413B-9B10-08504CA5EB0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

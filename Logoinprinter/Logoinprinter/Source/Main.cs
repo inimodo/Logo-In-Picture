@@ -22,7 +22,7 @@ namespace User
         public Main()
         {
             InitializeComponent();
-            InitializeInterface(new Size(260, 140)); 
+            InitializeInterface(new Size(260, 160)); 
         }
 
         void InitializeInterface(Size o_size)
@@ -34,20 +34,18 @@ namespace User
             this.e_hider.Location = new Point(1, 1 + e_nav.Size.Height);
             this.e_nav.Location = new Point(1, 1);
             this.e_nav.Size = new Size(o_size.Width - 2, e_nav.Size.Height);
-            this.e_nav_logo.Location = new Point(e_nav_logo.Location.X, 1);
-            this.e_nav_title.Text = "LogoInPrinter";
+            this.e_nav_title.Text = "Logo-In-Picture";
 
-            e_Position.SelectedIndex = 0;
+
+            e_Position.SelectedIndex = 3;
+            e_Modi.Items.Add("Add");
+            e_Modi.Items.Add("Invert");
+            e_Modi.Items.Add("Cut");
+            e_Modi.SelectedIndex = 2;
         }
 
-        void event_focus(object sender, EventArgs e)
-        {
-        }
-        void event_unfocus(object sender, EventArgs e)
-        {
 
-        }
-        void event_close(object sender, EventArgs e)
+        void Close(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -114,34 +112,59 @@ namespace User
         }
 
 
+        private int[] xyOffset(int i_imgSizeX,int i_imgSizeY, int i_logoSizeX, int i_logoSizeY)
+        {
+            int i_xOffset = 0, i_yOffset = 0;
+            switch (e_Position.SelectedIndex)
+            {
+                case 0:
+                    i_xOffset = (int)e_SideOffset.Value;
+                    i_yOffset = (int)e_SideOffset.Value;
+                    break;
+                case 1:
+                    i_xOffset = (int)e_SideOffset.Value;
+                    i_yOffset = i_imgSizeY - (int)e_SideOffset.Value- i_logoSizeY;
+                    break;
+                case 2:
+                    i_xOffset = i_imgSizeX-(int)e_SideOffset.Value- i_logoSizeX;
+                    i_yOffset = (int)e_SideOffset.Value;
+                    break;
+                case 3:
+                    i_xOffset = i_imgSizeX - (int)e_SideOffset.Value- i_logoSizeX;
+                    i_yOffset = i_imgSizeY - (int)e_SideOffset.Value - i_logoSizeY;
+                    break;
+            }
+            return new int[2]{i_xOffset,i_yOffset};
+        }
+        private Color MixColor(Color c_Basecolor,Color c_Logocolor,float f_Opacity, int i_Modi)
+        {
+            switch (i_Modi)
+            {
+                case 0:
+                    return Color.FromArgb(
+                        (int)((c_Basecolor.R) + c_Logocolor.R * f_Opacity) / 2,
+                        (int)((c_Basecolor.G) + c_Logocolor.G * f_Opacity) / 2,
+                        (int)((c_Basecolor.B) + c_Logocolor.B * f_Opacity) / 2);
+                case 1:
+                    return Color.FromArgb(
+                        (int)(255-c_Basecolor.R ),
+                        (int)(255-c_Basecolor.G ),
+                        (int)(255-c_Basecolor.B ));
+                case 2:
+                    return Color.FromArgb(
+                        (int)(((255 - c_Basecolor.R) * (c_Basecolor.R * f_Opacity) )%255.0f),
+                        (int)(((255 - c_Basecolor.G) *  (c_Basecolor.R * f_Opacity)) % 255.0f),
+                        (int)(((255 - c_Basecolor.B) * (c_Basecolor.R * f_Opacity) ) % 255.0f));
+                default:
+                    return new Color();
+            }
+
+        }
         private void Run(object sender, EventArgs e)
         {
-            int[] xyOffset(int i_imgSizeX,int i_imgSizeY, int i_logoSizeX, int i_logoSizeY)
-            {
-                int i_xOffset = 0, i_yOffset = 0;
-                switch (e_Position.SelectedIndex)
-                {
-                    case 0:
-                        i_xOffset = (int)e_SideOffset.Value;
-                        i_yOffset = (int)e_SideOffset.Value;
-                        break;
-                    case 1:
-                        i_xOffset = (int)e_SideOffset.Value;
-                        i_yOffset = i_imgSizeY - (int)e_SideOffset.Value- i_logoSizeY;
-                        break;
-                    case 2:
-                        i_xOffset = i_imgSizeX-(int)e_SideOffset.Value- i_logoSizeX;
-                        i_yOffset = (int)e_SideOffset.Value;
-                        break;
-                    case 3:
-                        i_xOffset = i_imgSizeX - (int)e_SideOffset.Value- i_logoSizeX;
-                        i_yOffset = i_imgSizeY - (int)e_SideOffset.Value - i_logoSizeY;
-                        break;
-                }
-                return new int[2]{i_xOffset,i_yOffset};
-            }
-            Bitmap o_Logo = (Bitmap)Image.FromFile(s_LogoFile);
 
+            Bitmap o_Logo = (Bitmap)Image.FromFile(s_LogoFile);
+            float f_Opacity = (float)e_Opacity.Value/100.0f;
             if (o_Logo == null)
             {
                 MessageBox.Show("Image file could not be loaded! Aborting!\nPATH:"+ s_LogoFile, "Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
@@ -163,8 +186,10 @@ namespace User
                     {
                         for (int i_yIndex = 0; i_yIndex < o_Logo.Height; i_yIndex++)
                         {
-                            Color o_Color = o_Logo.GetPixel(i_xIndex, i_yIndex);
-                            if (o_Color.A == 0) continue;
+                            Color o_SourceColor = o_Logo.GetPixel(i_xIndex, i_yIndex);
+                            Color o_BaseColor = o_SourceImage.GetPixel(i_Offsets[0]+ i_xIndex, i_Offsets[1] + i_yIndex);
+                            Color o_Color = MixColor(o_BaseColor,o_SourceColor,f_Opacity, e_Modi.SelectedIndex);
+                            if (o_SourceColor.A == 0) continue;
                             o_SourceImage.SetPixel(i_Offsets[0]+ i_xIndex, i_Offsets[1] + i_yIndex, o_Color);
                         }
                     }
@@ -175,8 +200,9 @@ namespace User
                     MessageBox.Show("Image dimensions missmatch logo! Skipping!\nPATH:" + s_SourceFiles[i_Index], "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     continue;
                 }
-                Random o_rnd = new Random();
-                o_SourceImage.Save(s_DestPath+"\\"+ s_SourceFiles[i_Index].Split('\\')[s_SourceFiles[i_Index].Split('\\').Length-1]);
+                string s_Path = s_DestPath + "\\" + s_SourceFiles[i_Index].Split('\\')[s_SourceFiles[i_Index].Split('\\').Length - 1];
+                if (File.Exists(s_Path)) File.Delete(s_Path);
+                o_SourceImage.Save(s_Path);
                 o_SourceImage.Dispose();
             }
             o_Logo.Dispose();
