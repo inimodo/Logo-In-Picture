@@ -16,13 +16,11 @@ namespace User
         bool b_indrag = false;
         public Form o_wintype;
 
-        private string[] s_SourceFiles;
-        private string s_LogoFile;
-        private string s_DestPath;
+
         public Main()
         {
             InitializeComponent();
-            InitializeInterface(new Size(260, 160)); 
+            InitializeInterface(this.e_hider.Size); 
         }
 
         void InitializeInterface(Size o_size)
@@ -40,8 +38,8 @@ namespace User
             e_Position.SelectedIndex = 3;
             e_Modi.Items.Add("Add");
             e_Modi.Items.Add("Invert");
-            e_Modi.Items.Add("Cut");
-            e_Modi.SelectedIndex = 2;
+            e_Modi.Items.Add("Cut"); 
+            e_Modi.SelectedIndex = 1;
         }
 
 
@@ -67,33 +65,17 @@ namespace User
             b_indrag = false;
         }
 
-        private void SelSourceFolder(object sender, EventArgs e)
-        {
-            using (OpenFileDialog o_Dialog = new OpenFileDialog())
-            {
-                o_Dialog.Multiselect = true;
-                o_Dialog.Filter = "png files (*.png)|*.png| jpg files (*.jpg)|*.jpg";
-                o_Dialog.RestoreDirectory = true;
-                if (o_Dialog.ShowDialog() == DialogResult.OK)
-                {
-                    s_SourceFiles = new string[o_Dialog.FileNames.Length];
-                    s_SourceFiles = o_Dialog.FileNames;
-
-                    e_SourceFolder.Text = o_Dialog.FileNames.Length + " File(s) Loaded!";
-                }
-            }
-        }
-
         private void SelLogoSource(object sender, EventArgs e)
         {
             using (OpenFileDialog o_Dialog = new OpenFileDialog())
             {
+                o_Dialog.FileName = Application.ExecutablePath;
                 o_Dialog.Multiselect = false;
                 o_Dialog.Filter = "png files (*.png)|*.png| jpg files (*.jpg)|*.jpg";
                 o_Dialog.RestoreDirectory = true;
                 if (o_Dialog.ShowDialog() == DialogResult.OK)
                 {
-                    s_LogoFile = o_Dialog.FileName;
+                    Smarts.s_LogoFile = o_Dialog.FileName;
                     e_LogoSource.Text = "Logo Loaded!";
                 }
             }
@@ -103,110 +85,65 @@ namespace User
         {
             using (FolderBrowserDialog o_Dialog = new FolderBrowserDialog())
             {
+                o_Dialog.SelectedPath = Application.StartupPath;
                 if (o_Dialog.ShowDialog() == DialogResult.OK)
                 {
-                    s_DestPath = o_Dialog.SelectedPath;
+                    Smarts.s_DestPath = o_Dialog.SelectedPath;
                     e_DestFolder.Text = "Folder Selected!";
                 }
             }
         }
-
-
-        private int[] xyOffset(int i_imgSizeX,int i_imgSizeY, int i_logoSizeX, int i_logoSizeY)
+        private void OpenFolder(object sender, EventArgs e)
         {
-            int i_xOffset = 0, i_yOffset = 0;
-            switch (e_Position.SelectedIndex)
+            using (FolderBrowserDialog o_Dialog = new FolderBrowserDialog())
             {
-                case 0:
-                    i_xOffset = (int)e_SideOffset.Value;
-                    i_yOffset = (int)e_SideOffset.Value;
-                    break;
-                case 1:
-                    i_xOffset = (int)e_SideOffset.Value;
-                    i_yOffset = i_imgSizeY - (int)e_SideOffset.Value- i_logoSizeY;
-                    break;
-                case 2:
-                    i_xOffset = i_imgSizeX-(int)e_SideOffset.Value- i_logoSizeX;
-                    i_yOffset = (int)e_SideOffset.Value;
-                    break;
-                case 3:
-                    i_xOffset = i_imgSizeX - (int)e_SideOffset.Value- i_logoSizeX;
-                    i_yOffset = i_imgSizeY - (int)e_SideOffset.Value - i_logoSizeY;
-                    break;
-            }
-            return new int[2]{i_xOffset,i_yOffset};
-        }
-        private Color MixColor(Color c_Basecolor,Color c_Logocolor,float f_Opacity, int i_Modi)
-        {
-            switch (i_Modi)
-            {
-                case 0:
-                    return Color.FromArgb(
-                        (int)((c_Basecolor.R) + c_Logocolor.R * f_Opacity) / 2,
-                        (int)((c_Basecolor.G) + c_Logocolor.G * f_Opacity) / 2,
-                        (int)((c_Basecolor.B) + c_Logocolor.B * f_Opacity) / 2);
-                case 1:
-                    return Color.FromArgb(
-                        (int)(255-c_Basecolor.R ),
-                        (int)(255-c_Basecolor.G ),
-                        (int)(255-c_Basecolor.B ));
-                case 2:
-                    return Color.FromArgb(
-                        (int)(((255 - c_Basecolor.R) * (c_Basecolor.R * f_Opacity) )%255.0f),
-                        (int)(((255 - c_Basecolor.G) *  (c_Basecolor.R * f_Opacity)) % 255.0f),
-                        (int)(((255 - c_Basecolor.B) * (c_Basecolor.R * f_Opacity) ) % 255.0f));
-                default:
-                    return new Color();
-            }
-
-        }
-        private void Run(object sender, EventArgs e)
-        {
-
-            Bitmap o_Logo = (Bitmap)Image.FromFile(s_LogoFile);
-            float f_Opacity = (float)e_Opacity.Value/100.0f;
-            if (o_Logo == null)
-            {
-                MessageBox.Show("Image file could not be loaded! Aborting!\nPATH:"+ s_LogoFile, "Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                return;
-            }
-            for (int i_Index = 0; i_Index < s_SourceFiles.Length; i_Index++)
-            {
-                Bitmap o_SourceImage =(Bitmap) Image.FromFile(s_SourceFiles[i_Index]);
-                if (o_SourceImage == null)
+                o_Dialog.SelectedPath = Application.StartupPath;
+                if (o_Dialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Image file could not be loaded! Skipping!\nPATH:" + s_SourceFiles[i_Index], "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    continue;
-                }
-                int[] i_Offsets = xyOffset(o_SourceImage.Width, o_SourceImage.Height, o_Logo.Width, o_Logo.Height);
-
-                if (o_SourceImage.Width >= o_Logo.Width + i_Offsets[0] && o_SourceImage.Height >= o_Logo.Height + i_Offsets[1])
-                {
-                    for (int i_xIndex = 0; i_xIndex < o_Logo.Width; i_xIndex++)
+                    List<string> s_Files = new List<string>();
+                    foreach (string o_Item in Directory.GetFileSystemEntries(o_Dialog.SelectedPath, "*", SearchOption.AllDirectories))
                     {
-                        for (int i_yIndex = 0; i_yIndex < o_Logo.Height; i_yIndex++)
-                        {
-                            Color o_SourceColor = o_Logo.GetPixel(i_xIndex, i_yIndex);
-                            Color o_BaseColor = o_SourceImage.GetPixel(i_Offsets[0]+ i_xIndex, i_Offsets[1] + i_yIndex);
-                            Color o_Color = MixColor(o_BaseColor,o_SourceColor,f_Opacity, e_Modi.SelectedIndex);
-                            if (o_SourceColor.A == 0) continue;
-                            o_SourceImage.SetPixel(i_Offsets[0]+ i_xIndex, i_Offsets[1] + i_yIndex, o_Color);
-                        }
+                        if (File.Exists(o_Item)) s_Files.Add(o_Item);
                     }
+                    Smarts.s_SourcePath = o_Dialog.SelectedPath;
+                    Smarts.s_SourceFiles = s_Files.ToArray();
+                    e_SourceFolder.Text = Smarts.s_SourceFiles.Length + " File(s) Loaded!";
                 }
-                else
-                {
-                    o_SourceImage.Dispose();
-                    MessageBox.Show("Image dimensions missmatch logo! Skipping!\nPATH:" + s_SourceFiles[i_Index], "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    continue;
-                }
-                string s_Path = s_DestPath + "\\" + s_SourceFiles[i_Index].Split('\\')[s_SourceFiles[i_Index].Split('\\').Length - 1];
-                if (File.Exists(s_Path)) File.Delete(s_Path);
-                o_SourceImage.Save(s_Path);
-                o_SourceImage.Dispose();
             }
-            o_Logo.Dispose();
+        }
 
+
+        private async void Run(object sender, EventArgs e)
+        {
+            Smarts.i_PosModi = e_Position.SelectedIndex;
+            Smarts.i_MixModi = e_Modi.SelectedIndex;
+            Smarts.f_Opacity =(float)e_Opacity.Value / 100.0f;
+            Smarts.i_Sideoffset =(int)e_SideOffset.Value;
+            Smarts.f_CoverScale = (float)e_CoverScale.Value/100.0f;
+
+            Smarts.i_StreamLength = (int)e_StreamLength.Value;
+            Smarts.i_StreamVariation= (int)e_StreamVariation.Value;
+            Smarts.i_StreamDensity= (int)e_CoverScale.Value;
+            Smarts.o_StreamEndcolor = e_StreamEndcolor.BackColor;
+
+            e_hider.Enabled = false;
+            await Task.Run(() =>
+            {
+                Smarts.LogoCompine();
+            });
+            MessageBox.Show("All files were processed successfully!", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            e_hider.Enabled = true;
+        }
+
+        private void OpenColorDialog(object sender, EventArgs e)
+        {
+            using (ColorDialog o_Dialog = new ColorDialog())
+            {
+                if (o_Dialog.ShowDialog() == DialogResult.OK)
+                {
+                    e_StreamEndcolor.BackColor = o_Dialog.Color;
+                }
+            }
         }
     }
 }

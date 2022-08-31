@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Smarts.cs" />
     <EmbeddedResource Include="Source\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
