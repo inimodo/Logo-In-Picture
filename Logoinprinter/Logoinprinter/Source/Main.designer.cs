@@ -32,8 +32,8 @@
             this.e_nav_title = new System.Windows.Forms.Label();
             this.e_nav = new System.Windows.Forms.PictureBox();
             this.e_hider = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.e_CoverScale = new System.Windows.Forms.NumericUpDown();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.e_StreamEndcolor = new System.Windows.Forms.PictureBox();
             this.e_StreamVariation = new System.Windows.Forms.NumericUpDown();
             this.e_StreamLength = new System.Windows.Forms.NumericUpDown();
@@ -51,10 +51,11 @@
             this.e_DestFolder = new System.Windows.Forms.TextBox();
             this.e_Run = new System.Windows.Forms.Button();
             this.e_nav_close = new System.Windows.Forms.PictureBox();
+            this.e_TransparentToggle = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.e_nav)).BeginInit();
             this.e_hider.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.e_CoverScale)).BeginInit();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.e_StreamEndcolor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_StreamVariation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_StreamLength)).BeginInit();
@@ -104,19 +105,6 @@
             this.e_hider.Size = new System.Drawing.Size(271, 333);
             this.e_hider.TabIndex = 20;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.e_StreamEndcolor);
-            this.groupBox1.Controls.Add(this.e_StreamVariation);
-            this.groupBox1.Controls.Add(this.e_StreamLength);
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(15, 199);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(243, 93);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Stream Options";
-            // 
             // e_CoverScale
             // 
             this.e_CoverScale.Location = new System.Drawing.Point(91, 299);
@@ -133,6 +121,20 @@
             0,
             0,
             0});
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.e_TransparentToggle);
+            this.groupBox1.Controls.Add(this.e_StreamEndcolor);
+            this.groupBox1.Controls.Add(this.e_StreamVariation);
+            this.groupBox1.Controls.Add(this.e_StreamLength);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(15, 199);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(243, 93);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Stream Options";
             // 
             // e_StreamEndcolor
             // 
@@ -349,6 +351,16 @@
             this.e_nav_close.TabStop = false;
             this.e_nav_close.Click += new System.EventHandler(this.Close);
             // 
+            // e_TransparentToggle
+            // 
+            this.e_TransparentToggle.AutoSize = true;
+            this.e_TransparentToggle.Location = new System.Drawing.Point(122, 49);
+            this.e_TransparentToggle.Name = "e_TransparentToggle";
+            this.e_TransparentToggle.Size = new System.Drawing.Size(83, 17);
+            this.e_TransparentToggle.TabIndex = 14;
+            this.e_TransparentToggle.Text = "Transparent";
+            this.e_TransparentToggle.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -367,8 +379,9 @@
             this.Text = "WINDOWNAME";
             ((System.ComponentModel.ISupportInitialize)(this.e_nav)).EndInit();
             this.e_hider.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.e_CoverScale)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.e_StreamEndcolor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_StreamVariation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e_StreamLength)).EndInit();
@@ -406,5 +419,6 @@
         private System.Windows.Forms.NumericUpDown e_StreamVariation;
         private System.Windows.Forms.NumericUpDown e_StreamLength;
         private System.Windows.Forms.NumericUpDown e_CoverScale;
+        private System.Windows.Forms.CheckBox e_TransparentToggle;
     }
 }

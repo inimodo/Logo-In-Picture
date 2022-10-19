@@ -129,7 +129,7 @@ namespace User
                         
                         ));
                     DrawStream(ref o_Temp);
-                    o_Temp.Save(s_Path.Replace("edit", "cover"), System.Drawing.Imaging.ImageFormat.Jpeg);
+                    o_Temp.Save(s_Path.Replace("edit", "cover").Replace("jpg","png"), System.Drawing.Imaging.ImageFormat.Png);
                     o_Temp.Dispose();
 
                 }
@@ -143,6 +143,7 @@ namespace User
             Color ColorGradient(Color o_Base,Color o_Goal,float f_Pos)
             {
                 return Color.FromArgb(
+                    (int)((float)(o_Base.A - o_Goal.A) * f_Pos + (float)o_Goal.A),
                     (int)((float)(o_Base.R - o_Goal.R) * f_Pos + (float)o_Goal.R),
                     (int)((float)(o_Base.G - o_Goal.G) * f_Pos + (float)o_Goal.G),
                     (int)((float)(o_Base.B - o_Goal.B) * f_Pos + (float)o_Goal.B));

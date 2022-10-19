@@ -115,16 +115,18 @@ namespace User
 
         private async void Run(object sender, EventArgs e)
         {
+            int i_Alpha = 255;
+            if (e_TransparentToggle.Checked) i_Alpha = 0;
+
             Smarts.i_PosModi = e_Position.SelectedIndex;
             Smarts.i_MixModi = e_Modi.SelectedIndex;
             Smarts.f_Opacity =(float)e_Opacity.Value / 100.0f;
             Smarts.i_Sideoffset =(int)e_SideOffset.Value;
             Smarts.f_CoverScale = (float)e_CoverScale.Value/100.0f;
-
             Smarts.i_StreamLength = (int)e_StreamLength.Value;
             Smarts.i_StreamVariation= (int)e_StreamVariation.Value;
             Smarts.i_StreamDensity= (int)e_CoverScale.Value;
-            Smarts.o_StreamEndcolor = e_StreamEndcolor.BackColor;
+            Smarts.o_StreamEndcolor = Color.FromArgb(i_Alpha, e_StreamEndcolor.BackColor);
 
             e_hider.Enabled = false;
             await Task.Run(() =>
